@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('guru', function (Blueprint $table) {
             $table->integer('id_guru')->primary()->autoIncrement();
             $table->char('nip', 18)->unique();
-            $table->string('password', 25);
+            $table->string('password', 255);
             $table->string('email', 50);
             $table->string('nama_guru', 25);
             $table->string('foto', 50)->nullable();
