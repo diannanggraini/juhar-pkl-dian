@@ -21,4 +21,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/admin/guru', [GuruController::class, 'guru'])->name('admin.guru');
     Route::get('/admin/guru/tambah', [GuruController::class, 'create'])->name('admin.guru.create');
     Route::post('/admin/guru/tambah', [GuruController::class, 'store'])->name('admin.guru.store');
+    Route::get('/admin/guru/edit/{id}', [GuruController::class, 'edit'])->name('admin.guru.edit');
+    Route::put('/admin/guru/edit/{id}', [GuruController::class, 'update'])->name('admin.guru.update');
+    Route::get('/admin/guru/delete/{id}', [GuruController::class, 'delete'])->name('admin.guru.delete');
 });
