@@ -57,10 +57,10 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="{{ route('admin.dashboard') }}" class="nav-item nav-link {{ request()-> RouteIs('Admin.dashboard') ? 'active' : '' }}"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <a href="{{ route('admin.guru') }}" class="nav-item nav-link {{ request()-> RouteIs('Admin.guru') ? 'active' : '' }}"><i class="fa fa-th me-2"></i>Guru</a>
-                    <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Dudi</a>
-                    <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Pembimbing</a>
+                    <a href="{{ route('admin.dashboard') }}" class="nav-item nav-link {{ request()-> RouteIs('Admin.dashboard') ? 'active' : '' }}"><i class="fas fa-globe"></i> Dashboard</a>
+                    <a href="{{ route('admin.guru') }}" class="nav-item nav-link {{ request()-> RouteIs('Admin.guru') ? 'active' : '' }}"><i class="fas fa-chalkboard-teacher"></i> Guru</a>
+                    <a href="{{ route('admin.dudi') }}" class="nav-item nav-link {{ request()-> RouteIs('Admin.dudi') ? 'active' : '' }}"><i class="fas fa-home"></i> Dudi</a>
+                    <a href="{{ route('admin.pembimbing') }}" class="nav-item nav-link {{ request()-> RouteIs('Admin.pembimbing') ? 'active' : '' }}"><i class="fas fa-user-plus"></i> Pembimbing</a>
                 </div>
             </nav>
         </div>
