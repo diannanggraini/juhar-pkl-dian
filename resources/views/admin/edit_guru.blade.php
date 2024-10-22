@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Tambah Guru')
+@section('title', 'Edit Guru')
 
 @section('content')
 

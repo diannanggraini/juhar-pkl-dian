@@ -26,4 +26,9 @@ class Pembimbing extends Model
     {
         return $this->hasOne(Dudi::class, 'id_dudi', 'id_dudi');
     }
+
+    public function siswa()
+    {
+        return $this->hasMany(Siswa::class, 'id_pembimbing', 'id_pembimbing');
+    }
 }

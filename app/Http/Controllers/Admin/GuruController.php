@@ -117,14 +117,12 @@ class GuruController extends Controller
         return redirect()->route('admin.guru')->with('success', 'Data Guru Berhasil di Edit');
     }
 
-    public function delete($id)
+    public function delete($id,)
     {
         $guru = guru::find($id);
 
-        $foto = $guru->foto;
-
         if ($guru->foto) {
-            $foto = $guru = $guru->foto;
+            $foto = $guru->foto;
 
             if (Storage::disk('public')->exists($foto)) {
                 Storage::disk('public')->delete($foto);
