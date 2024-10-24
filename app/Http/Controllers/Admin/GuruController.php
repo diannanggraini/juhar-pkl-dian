@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Guru;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,6 +15,15 @@ class GuruController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public function logout(Request $request)
+    {
+        Auth::guard('guru')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('guru.login');
+    }
+
     public function guru()
     {
         $gurus = Guru::all();
@@ -140,5 +151,53 @@ class GuruController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function dashboard()
+    {
+        return view('guru.dashboard');
+    }
+
+    public function profile()
+    {
+        $profile = Auth::guard('guru')->user();
+        return view('guru.profile', compact('profile'));
+    }
+
+    public function updateGuru(Request $request)
+    {
+        $id_guru = Auth::guard('guru')->user()->id_guru;
+        $guru = Guru::find($id_guru);
+
+        $request->validate([
+            'nip' => 'nullable|unique:guru,nip,' . $id_guru . ',id_guru',
+            'email' => 'required|unique:guru,email,' . $id_guru . ',id_guru',
+            'password' => 'nullable|min:6',
+            'nama_guru' => 'required',
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
+        ]);
+
+        $foto = $guru->foto;
+
+        if ($request->hasFile('foto')) {
+            if ($foto) {
+                Storage::disk('public')->delete($foto);
+            }
+            $uniqueField = uniqid() . '_' . $request->file('foto')->getClientOriginalName();
+
+            $request->file('foto')->storeAs('foto_admin_guru', $uniqueField, 'public');
+
+            $foto = 'foto_admin_guru/' . $uniqueField;
+        }
+
+        $guru->update([
+            'nip' => $request->nip,
+            'email' => $request->email,
+            'password' => $request->filled('password') ? Hash::make($request->password) : $guru->password,
+            'nama_guru' => $request->nama_guru,
+            'foto' => $foto,
+        ]);
+
+        return redirect()->route('guru.profile')->with('success', 'Data Anda Berhasil di Update');
     }
 }

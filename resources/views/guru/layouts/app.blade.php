@@ -20,14 +20,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-
     <!-- Customized Bootstrap Stylesheet -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <link href="{{ asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
 
     <!-- Template Stylesheet -->
-    <link href="{{ asset('css/style.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -49,19 +48,17 @@
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="{{ asset('storage/' . Auth::guard('admin')->user()->foto) }}" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="{{asset('storage/' . Auth::guard('guru')->user()->foto) }}" alt="" style="width: 40px; height: 40px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">{{ Auth::guard('admin')->user()->nama_admin}}</h6>
-                        <span>Admin</span>
+                        <h6 class="mb-0">{{ Auth::guard('guru')->user()->nama_guru }}</h6>
+                        <span>Guru</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="{{ route('admin.dashboard')}}" class="nav-item nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <a href="{{ route('admin.guru')}}" class="nav-item nav-link {{ request()->routeIs('admin.guru*') ? 'active' : '' }}"><i class="fa fa-th me-2"></i>Guru</a>
-                    <a href="{{ route('admin.dudi')}}" class="nav-item nav-link {{ request()->routeIs('admin.dudi*') ? 'active' : '' }}"><i class="fa fa-keyboard me-2"></i>Dudi</a>
-                    <a href="{{ route('admin.pembimbing') }}" class="nav-item nav-link {{ request()->routeIs('admin.pembimbing*') ? 'active' : '' }}"><i class="fa fa-table me-2"></i>Pembimbing</a>
+                    <a href="{{ route('guru.dashboard') }}" class="nav-item nav-link {{ request()-> RouteIs('guru.dashboard') ? 'active' : '' }}"><i class="fas fa-globe"></i> Dashboard</a>
+                    <a href="{{ route('guru.pembimbing') }}" class="nav-item nav-link {{ request()-> RouteIs('guru.pembimbing*') ? 'active' : '' }}"><i class="fas fa-user-plus"></i> Pembimbing</a>
                 </div>
             </nav>
         </div>
@@ -84,12 +81,12 @@
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="{{ asset('storage/' . Auth::guard('admin')->user()->foto) }}" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">{{ Auth::guard('admin')->user()->nama_admin}}</span>
+                            <img class="rounded-circle me-lg-2" src="{{asset('storage/' . Auth::guard('guru')->user()->foto) }}" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">{{ Auth::guard('guru')->user()->nama_guru }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="{{ route('admin.profile') }}" class="dropdown-item">My Profile</a>
-                            <a href="{{ route('admin.logout') }}" class="dropdown-item">Log Out</a>
+                            <a href="{{ route('guru.profile') }}" class="dropdown-item">My Profile</a>
+                            <a href="{{ route('guru.logout') }}" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
                 </div>
@@ -99,12 +96,9 @@
 
             <!-- Sale & Revenue Start -->
             <div class="container-fluid pt-4 px-4">
-                 @yield('content')
+                @yield('content')
             </div>
             <!-- Sale & Revenue End -->
-
-
-
 
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
@@ -132,13 +126,12 @@
     </div>
 
     <!-- JavaScript Libraries -->
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src= "https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
 
     <!-- Template Javascript -->
-    <script src="{{ asset('js/main.js')}}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 </body>
 
 </html>
