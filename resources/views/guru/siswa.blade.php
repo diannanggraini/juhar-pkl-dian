@@ -3,9 +3,13 @@
 @section('title', 'Siswa')
 
 @section('content')
-
-<div class="row bg-light rounded align-items-center mx-0">
+@if ($errors->has('access'))
+<div class="alert alert-danger">
+    {{ $errors->first('access') }}
+</div>
+@endif
 @if ($siswa)
+<div class="row bg-light rounded align-items-center mx-0">
 <div class="col-md-6 p-3">
     <table>
         <tr>
@@ -54,7 +58,7 @@
                                 <img src="{{ asset('storage/'. $siswa->foto) }}" alt="" height="30">
                             </td>
                             <td>
-                                <a href="" class="btn btn-primary btn-sm">Kegiatan</a>
+                                <a href="{{ route('guru.pembimbing.siswa.kegiatan', ['id' => $siswa->id_pembimbing, 'id_siswa' => $siswa->id_siswa]) }}" class="btn btn-primary btn-sm">Kegiatan</a>
                             </td>
                         </tr>
                         @endforeach
