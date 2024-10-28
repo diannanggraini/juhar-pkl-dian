@@ -15,6 +15,7 @@ class SiswaController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function siswa($id)
     {
         $siswas = Siswa::where('id_pembimbing', $id)->get();
@@ -156,5 +157,64 @@ class SiswaController extends Controller
         $siswas = Siswa::where('id_pembimbing', $id)->get();
         $siswa = Siswa::where('id_pembimbing', $id)->first();
         return view('guru.siswa', compact('siswas', 'siswa', 'id'));
+    }
+
+    public function dashboard()
+    {
+        return view('siswa.dashboard');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('siswa')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('siswa.login');
+    }
+
+    public function profile()
+    {
+        $profile = Auth::guard('siswa')->user();
+        return view('siswa.profile', compact('profile'));
+    }
+
+    public function updateSiswa(Request $request)
+    {
+        $id_siswa = Auth::guard('siswa')->user()->id_siswa;
+        $siswa = Siswa::find($id_siswa);
+
+        $request->validate([
+            'nisn' => 'required|unique:siswa,nisn,' . $id_siswa . ',id_siswa',
+            'password' => 'nullable|min:6',
+            'nama_siswa' => 'required',
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
+        ]);
+
+        $foto = $siswa->foto;
+
+        if ($request->hasFile('foto')) {
+            if ($foto) {
+                Storage::disk('public')->delete($foto);
+            }
+            $uniqueField = uniqid() . '_' . $request->file('foto')->getClientOriginalName();
+
+            $request->file('foto')->storeAs('foto_admin_siswa', $uniqueField, 'public');
+
+            $foto = 'foto_admin_siswa/' . $uniqueField;
+        }
+
+        $siswa->update([
+            'nisn' => $request->nisn,
+            'password' => $request->filled('password') ? Hash::make($request->password) : $siswa->password,
+            'nama_siswa' => $request->nama_siswa,
+            'foto' => $foto,
+        ]);
+
+        return redirect()->route('siswa.profile')->with('success', 'Data Anda Berhasil di Update');
+    }
+
+    public function kegiatan()
+    {
+        return view('siswa.kegiatan_siswa');
     }
 }
