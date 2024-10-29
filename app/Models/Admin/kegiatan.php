@@ -11,7 +11,7 @@ class kegiatan extends Model
     protected $table = 'kegiatan';
     protected $primaryKey = 'id_kegiatan';
 
-    protected $filable = [
+    protected $fillable = [
         'id_siswa',
         'tanggal_kegiatan',
         'nama_kegiatan',

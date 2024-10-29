@@ -36,12 +36,16 @@
                 </div>
                 <div class="mb-3">
                     <label for="ringkasan_kegiatan" class="form-label">Ringkasan Kegiatan</label>
-                    <input type="text" class="form-control" value="{{ old('ringkasan_kegiatan', $kegiatan->ringkasan_kegiatan) }}" readonly>
+                   <textarea name="ringkasan_kegiatan" id="ringkasa_kegiatan" rows="10" class="form-control"></textarea>
                 </div>
             <div class="mb-3">
-                <img src="{{ asset('storage/'  . $kegiatan->foto) }}" alt="" height="200">
+                <label for="foto" class="form-lable">Foto</label>
+                <div class="text-center">
+                    <img src="{{ asset('storage/'  . $kegiatan->foto) }}" alt="" height="200">
+                </div>
             </div>
-                <a href="{{ route('guru.pembimbing.siswa.kegiatan', ['id' => $id, 'id_siswa' => $kegiatan->id_siswa]) }}" class="btn btn-primary">Kembali</a>
+                <a href="{{ route('guru.pembimbing.siswa.kegiatan', ['id' => $id, 'id_siswa' => $kegiatan->id_siswa]) }}"
+                    class="btn btn-primary">Kembali</a>
             </form>
         </div>
     </div>
