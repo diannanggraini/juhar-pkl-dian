@@ -71,6 +71,8 @@ Route::middleware(['guru'])->group(function () {
     Route::get('/guru/pembimbing/{id}/siswa', [SiswaController::class, 'siswaGuru'])->name('guru.pembimbing.siswa');
     Route::get('/guru/pembimbing/{id}/siswa/{id_siswa}/kegiatan', [KegiatanController::class, 'kegiatan'])->name('guru.pembimbing.siswa.kegiatan');
     Route::get('/guru/pembimbing/{id}/siswa/{id_siswa}/kegiatan/detail/{id_kegiatan}', [KegiatanController::class, 'detailKegiatan'])->name('guru.pembimbing.siswa.kegiatan.detail');
+
+    Route::get('/guru/pembimbing/{id}/siswa/{id_siswa}/kegiatan/cari', [KegiatanController::class, 'cariKegiatan'])->name('guru.pembimbing.siswa.kegiatan.cari');
 });
 
 Route::middleware(['siswa'])->group(function () {
@@ -82,7 +84,7 @@ Route::middleware(['siswa'])->group(function () {
     Route::get('/siswa/kegiatan', [KegiatanController::class, 'kegiatanSiswa'])->name('siswa.kegiatan');
     Route::get('/siswa/kegiatan/tambah', [KegiatanController::class, 'create'])->name('siswa.kegiatan.create');
     Route::post('/siswa/kegiatan/tambah', [KegiatanController::class, 'store'])->name('siswa.kegiatan.store');
-    Route::get('/siswa/kegiatan/edit/{id}', [KegiatanController::class, 'edit'])->name('kegiatan.edit');
+    Route::get('/siswa/kegiatan/edit/{id}', [KegiatanController::class, 'editSiswa'])->name('kegiatan.edit');
     Route::put('/siswa/kegiatan/update/{id}', [KegiatanController::class, 'updateKegiatan'])->name('siswa.kegiatan.update');
     Route::get('/siswa/kegiatan/delete/{id}', [KegiatanController::class, 'deleteKegiatan'])->name('kegiatan.hapus');
     Route::get('/siswa/kegiatan/detail/{id_kegiatan}', [KegiatanController::class, 'detailKegiatanSiswa'])->name('kegiatan.detail');

@@ -35,7 +35,7 @@ class KegiatanController extends Controller
         $kegiatans = kegiatan::where('id_siswa', $id_siswa)->get();
         $kegiatan = kegiatan::where('id_siswa', $id_siswa)->first();
         $id_pembimbing = $id;
-        return view('guru.kegiatan', compact('id_pembimbing', 'kegiatans', 'kegiatan'));
+        return view('guru.kegiatan', compact('id_pembimbing', 'id_siswa', 'kegiatans', 'kegiatan'));
     }
 
     public function detailKegiatan($id, $id_siswa, $id_kegiatan)
@@ -112,9 +112,16 @@ class KegiatanController extends Controller
         return redirect()->route('siswa.kegiatan')->with('success', 'Kegiatan Siswa Berhasil di Tambah.');
     }
 
-        public function edit($id)
+        public function editSiswa(string $id)
     {
-        $kegiatan = Kegiatan::findOrFail($id);
+        $id_siswa = Auth::guard('siswa')->user()->id_siswa;
+        $kegiatan = Kegiatan::where('id_kegiatan', $id)
+                            ->where('id_siswa', $id_siswa)
+                            ->first();
+        if (!$kegiatan) {
+            return back()->withErrors(['access' => 'Kegiatan Tidak Tersedia']);
+        }
+        $kegiatan = Kegiatan::find($id);
         return view('siswa.edit_kegiatan', compact('kegiatan'));
     }
 
@@ -189,7 +196,6 @@ class KegiatanController extends Controller
     public function detailKegiatanSiswa($id_kegiatan)
     {
         $id_siswa = Auth::guard('siswa')->user()->id_siswa;
-
         $kegiatan = Kegiatan::where('id_kegiatan', $id_kegiatan)
                             ->where('id_siswa', $id_siswa)
                             ->first();
@@ -198,5 +204,46 @@ class KegiatanController extends Controller
         }
 
         return view('siswa.detail_kegiatan', compact('kegiatan'));
+    }
+
+    public function cariKegiatan(Request $request, $id, $id_siswa)
+    {
+        $request->validate([
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
+        ]);
+
+        $tanggalAwal = $request->input('tanggal_awal');
+        $tanggalAkhir = $request->input('tanggal_akhir');
+
+        $loginGuru = Auth::guard('guru')->user()->id_guru;
+
+        $siswa = Siswa::find($id_siswa);
+
+        if (!$siswa || !$siswa->id_pembimbing) {
+            return back()->withErrors(['access' => 'Siswa tidak ditemukan atau tidak memiliki pembimbing.']);
+        }
+
+        if ($siswa->id_pembimbing != $id) {
+            return back()->withErrors(['access' => 'Pembimbig tidak sesuai']);
+        }
+
+        $pembimbing = Pembimbing::find($id);
+
+        if (!$pembimbing || $pembimbing->id_guru !== $loginGuru) {
+            return back()->withErrors(['access' => 'Akses Anda di tolak. Siswa ini tidak dibimbing oleh Anda']);
+        }
+
+        $kegiatans = kegiatan::where('id_siswa', $id_siswa)
+            ->whereBetween('tanggal_kegiatan', [$tanggalAwal, $tanggalAkhir])
+            ->get();
+
+        $kegiatan = kegiatan::where('id_siswa', $id_siswa)
+            ->whereBetween('tanggal_kegiatan', [$tanggalAwal, $tanggalAkhir])
+            ->first();
+
+        $id_pembimbing = $id;
+
+        return view('guru.kegiatan', compact('kegiatans', 'kegiatan', 'id_pembimbing', 'id_siswa', 'tanggalAwal', 'tanggalAkhir'));
     }
 }

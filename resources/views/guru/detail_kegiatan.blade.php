@@ -3,10 +3,10 @@
 @section('title', 'Detail Kegiatan')
 
 @section('content')
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
+@if ($errors->has('access'))
+<div class="alert alert-danger">
+    {{ $errors->first('access') }}
+</div>
 @endif
 @if ($kegiatan)
 <div class="row bg-light rounded align-items-center mx-0">
